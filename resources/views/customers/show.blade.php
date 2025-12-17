@@ -103,5 +103,8 @@
     <a href="{{ route('customers.edit', $customer->customer_id) }}" class="btn btn-warning">
         <i class="bi bi-pencil"></i> Edit Customer
     </a>
+    <a href="{{ route('customers.manage-services', $customer->customer_id) }}" class="btn btn-primary">
+        <i class="bi bi-gear"></i> Kelola Layanan
+    </a>
 </div>
 @endsection

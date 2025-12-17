@@ -24,12 +24,11 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('leads', LeadController::class);
     
     Route::middleware(['role:admin,manager'])->group(function () {
-    Route::get('services', [ServiceController::class, 'index'])->name('services.index');
-    Route::get('services/{service}', [ServiceController::class, 'show'])->name('services.show');
-    Route::get('services/{service}/edit', [ServiceController::class, 'edit'])->name('services.edit');
-    Route::put('services/{service}', [ServiceController::class, 'update'])->name('services.update');
-    // Tidak ada create, store, destroy
-});
+        Route::get('services', [ServiceController::class, 'index'])->name('services.index');
+        Route::get('services/{service}', [ServiceController::class, 'show'])->name('services.show');
+        Route::get('services/{service}/edit', [ServiceController::class, 'edit'])->name('services.edit');
+        Route::put('services/{service}', [ServiceController::class, 'update'])->name('services.update');
+    });
     
     Route::resource('projects', ProjectController::class);
     Route::middleware(['role:admin,manager'])->group(function () {
@@ -38,4 +37,18 @@ Route::middleware(['auth'])->group(function () {
     });
     
     Route::resource('customers', CustomerController::class)->except(['create', 'store', 'destroy']);
+    
+    // Routes untuk manage services customer
+    Route::get('customers/{customer}/manage-services', [CustomerController::class, 'manageServices'])
+        ->name('customers.manage-services');
+    Route::post('customers/{customer}/add-service', [CustomerController::class, 'addService'])
+        ->name('customers.add-service');
+    Route::post('customers/{customer}/services/{customerService}/change', [CustomerController::class, 'changeService'])
+        ->name('customers.change-service');
+    Route::post('customers/{customer}/services/{customerService}/suspend', [CustomerController::class, 'suspendService'])
+        ->name('customers.suspend-service');
+    Route::post('customers/{customer}/services/{customerService}/activate', [CustomerController::class, 'activateService'])
+        ->name('customers.activate-service');
+    Route::post('customers/{customer}/services/{customerService}/terminate', [CustomerController::class, 'terminateService'])
+        ->name('customers.terminate-service');
 });
