@@ -1,0 +1,59 @@
+services:
+  # Web Service (Laravel)
+  - type: web
+    name: isp-admin
+    env: docker
+    plan: free
+    region: singapore
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: APP_NAME
+        value: ISP Admin CRM
+      - key: APP_ENV
+        value: production
+      - key: APP_KEY
+        generateValue: true
+      - key: APP_DEBUG
+        value: false
+      - key: APP_URL
+        value: https://isp-admin.onrender.com
+      - key: LOG_CHANNEL
+        value: stack
+      - key: LOG_LEVEL
+        value: debug
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_HOST
+        fromDatabase:
+          name: isp-admin-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: isp-admin-db
+          property: port
+      - key: DB_DATABASE
+        fromDatabase:
+          name: isp-admin-db
+          property: database
+      - key: DB_USERNAME
+        fromDatabase:
+          name: isp-admin-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: isp-admin-db
+          property: password
+      - key: SESSION_DRIVER
+        value: file
+      - key: CACHE_DRIVER
+        value: file
+      - key: QUEUE_CONNECTION
+        value: sync
+
+databases:
+  # PostgreSQL Database
+  - name: isp-admin-db
+    plan: free
+    databaseName: isp_admin
+    user: isp_admin_user
+    region: singapore
